@@ -26,7 +26,7 @@ abstract class _MovieStore with Store {
       final response = await movieService.fetchMovies(type);
       return response;
     } catch (e) {
-      throw Exception('Failed to fetch movies: $e');
+      throw Exception('Failed to fetchMovies: $e');
     } finally {
       loading = false;
     }
@@ -39,7 +39,7 @@ abstract class _MovieStore with Store {
       final response = await movieService.fetchMoviesTrending();
       return response;
     } catch (e) {
-      throw Exception('Failed to fetch movies: $e');
+      throw Exception('Failed to fetchMoviesTrending: $e');
     } finally {
       loadingTreading = false;
     }
@@ -52,7 +52,20 @@ abstract class _MovieStore with Store {
       final response = await movieService.fetchMovieDetail(id);
       movieDetail = response;
     } catch (e) {
-      throw Exception('Failed to fetch movies: $e');
+      throw Exception('Failed to fetchMovieDetail: $e');
+    } finally {
+      loading = false;
+    }
+  }
+
+  @action
+  Future<List<Movie>> fetchMoviesSearch(String name) async {
+    try {
+      loading = true;
+      final response = await movieService.fetchMoviesSearch(name);
+      return response;
+    } catch (e) {
+      throw Exception('Failed to fetchMoviesSearch: $e');
     } finally {
       loading = false;
     }

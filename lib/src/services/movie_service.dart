@@ -47,4 +47,19 @@ class MovieService {
       throw Exception('Failed to fetch movies: $e');
     }
   }
+
+  Future<List<Movie>> fetchMoviesSearch(String name) async {
+    try {
+      final response = await _dio.get(
+          "$_baseUrl/search/movie?query=$name&include_adult=false&language=pt-BR&page=1",
+          queryParameters: {'api_key': _apiKey});
+
+      final data = response.data['results'] as List;
+      final movies = data.map((item) => Movie.fromJson(item)).toList();
+
+      return movies;
+    } catch (e) {
+      throw Exception('Failed to fetch movies: $e');
+    }
+  }
 }

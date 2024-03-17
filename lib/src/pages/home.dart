@@ -15,7 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final movieStore = getIt<MovieStore>();
+  final _textSearchController = TextEditingController();
+  final _movieStore = getIt<MovieStore>();
   late List<Movie> moviesPopular;
   late List<Movie> moviesTrending;
 
@@ -26,11 +27,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getMovies() async {
-    moviesPopular = await movieStore.fetchMovies("popular");
+    moviesPopular = await _movieStore.fetchMovies("popular");
   }
 
   Future getMoviesTrending() async {
-    moviesPopular = await movieStore.fetchMoviesTrending();
+    moviesPopular = await _movieStore.fetchMoviesTrending();
   }
 
   @override
@@ -95,12 +96,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: TextField(
+                            controller: _textSearchController,
                             autofocus: false,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText:
                                   'Buscar por um Filme, Série ou Pessoa...',
                               border: InputBorder.none,
@@ -113,7 +115,9 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MovieSearchPage(),
+                              builder: (context) => MovieSearchPage(
+                                movieName: _textSearchController.text,
+                              ),
                             ),
                           );
                         },
@@ -131,7 +135,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
-                child: movieStore.loading
+                child: _movieStore.loading
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
