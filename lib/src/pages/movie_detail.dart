@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_movies/src/components/movie_card.dart';
 import 'package:flutter_movies/src/stores/movie_store.dart';
 import 'package:flutter_movies/src/utils/date_format.dart';
 import 'package:flutter_movies/src/utils/get_it_setup.dart';
@@ -42,20 +43,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            width: 200,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                'https://media.themoviedb.org/t/p/w220_and_h330_face${_movieStore.movieDetail!.posterPath}',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                          child: MovieCard(
+                            posterPath: _movieStore.movieDetail!.posterPath,
                           ),
                         ),
                         const SizedBox(

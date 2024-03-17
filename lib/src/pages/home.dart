@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies/src/components/movie_card.dart';
+import 'package:flutter_movies/src/components/movie_search.dart';
 import 'package:flutter_movies/src/models/movie.dart';
 import 'package:flutter_movies/src/pages/movie_detail.dart';
 import 'package:flutter_movies/src/pages/movie_search.dart';
@@ -85,54 +87,20 @@ class _HomePageState extends State<HomePage> {
                 height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.0,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TextField(
-                            controller: _textSearchController,
-                            autofocus: false,
-                            decoration: const InputDecoration(
-                              hintText:
-                                  'Buscar por um Filme, Série ou Pessoa...',
-                              border: InputBorder.none,
-                            ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: MovieSearch(
+                    textSearchController: _textSearchController,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MovieSearchPage(
+                            movieName: _textSearchController.text,
                           ),
                         ),
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MovieSearchPage(
-                                movieName: _textSearchController.text,
-                              ),
-                            ),
-                          );
-                        },
-                        height: 48,
-                        color: const Color(0XFF032541),
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: const Text('Buscar'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                      );
+                    },
+                  )),
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: _movieStore.loading
@@ -162,36 +130,19 @@ class _HomePageState extends State<HomePage> {
                                   return Column(
                                     children: [
                                       GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MovieDetailPage(
-                                                movieId: movie.id,
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MovieDetailPage(
+                                                  movieId: movie.id,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 8, right: 8),
-                                          width: 200,
-                                          height: 300,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.network(
-                                              'https://media.themoviedb.org/t/p/w220_and_h330_face${movie.posterPath}',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                            );
+                                          },
+                                          child: MovieCard(
+                                              posterPath: movie.posterPath)),
                                       const SizedBox(
                                         height: 8,
                                       ),
