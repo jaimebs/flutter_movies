@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies/src/models/movie.dart';
 import 'package:flutter_movies/src/pages/movie_detail.dart';
+import 'package:flutter_movies/src/pages/movie_search.dart';
 import 'package:flutter_movies/src/stores/movie_store.dart';
 import 'package:flutter_movies/src/utils/date_format.dart';
 import 'package:flutter_movies/src/utils/get_it_setup.dart';
@@ -98,6 +99,7 @@ class _HomePageState extends State<HomePage> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
                           child: TextField(
+                            autofocus: false,
                             decoration: InputDecoration(
                               hintText:
                                   'Buscar por um Filme, Série ou Pessoa...',
@@ -108,7 +110,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       MaterialButton(
                         onPressed: () {
-                          // Função a ser executada quando o botão for pressionado
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MovieSearchPage(),
+                            ),
+                          );
                         },
                         height: 48,
                         color: const Color(0XFF032541),
