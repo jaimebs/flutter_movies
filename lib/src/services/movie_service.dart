@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_movies/src/models/movie.dart';
+import 'package:flutter_movies/src/models/movie_detail.dart';
 
 class MovieService {
   final Dio _dio = Dio();
@@ -12,11 +13,10 @@ class MovieService {
           "$_baseUrl/movie/$type?language=pt-BR&page=1",
           queryParameters: {'api_key': _apiKey});
 
-      final movies = response.data['results'] as List;
-      final moviesTranform =
-          movies.map((item) => Movie.fromJson(item)).toList();
+      final data = response.data['results'] as List;
+      final movies = data.map((item) => Movie.fromJson(item)).toList();
 
-      return moviesTranform;
+      return movies;
     } catch (e) {
       throw Exception('Failed to fetch movies: $e');
     }
@@ -28,11 +28,21 @@ class MovieService {
           "$_baseUrl/trending/movie/day?language=pt-BR",
           queryParameters: {'api_key': _apiKey});
 
-      final movies = response.data['results'] as List;
-      final moviesTranform =
-          movies.map((item) => Movie.fromJson(item)).toList();
+      final data = response.data['results'] as List;
+      final movies = data.map((item) => Movie.fromJson(item)).toList();
 
-      return moviesTranform;
+      return movies;
+    } catch (e) {
+      throw Exception('Failed to fetch movies: $e');
+    }
+  }
+
+  Future<MovieDetail> fetchMovieDetail(int id) async {
+    try {
+      final response = await _dio.get("$_baseUrl/movie/$id?language=pt-BR",
+          queryParameters: {'api_key': _apiKey});
+
+      return MovieDetail.fromJson(response.data);
     } catch (e) {
       throw Exception('Failed to fetch movies: $e');
     }

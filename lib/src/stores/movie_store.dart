@@ -1,4 +1,5 @@
 import 'package:flutter_movies/src/models/movie.dart';
+import 'package:flutter_movies/src/models/movie_detail.dart';
 import 'package:flutter_movies/src/services/movie_service.dart';
 import 'package:flutter_movies/src/utils/get_it_setup.dart';
 import 'package:mobx/mobx.dart';
@@ -14,6 +15,9 @@ abstract class _MovieStore with Store {
 
   @observable
   bool loadingTreading = false;
+
+  @observable
+  MovieDetail? movieDetail;
 
   @action
   Future<List<Movie>> fetchMovies(String type) async {
@@ -38,6 +42,19 @@ abstract class _MovieStore with Store {
       throw Exception('Failed to fetch movies: $e');
     } finally {
       loadingTreading = false;
+    }
+  }
+
+  @action
+  Future<void> fetchMovieDetail(int id) async {
+    try {
+      loading = true;
+      final response = await movieService.fetchMovieDetail(id);
+      movieDetail = response;
+    } catch (e) {
+      throw Exception('Failed to fetch movies: $e');
+    } finally {
+      loading = false;
     }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies/src/models/movie.dart';
+import 'package:flutter_movies/src/pages/movie_detail.dart';
 import 'package:flutter_movies/src/stores/movie_store.dart';
-import 'package:flutter_movies/src/utils/dateFormat.dart';
+import 'package:flutter_movies/src/utils/date_format.dart';
 import 'package:flutter_movies/src/utils/get_it_setup.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -109,7 +110,17 @@ class _HomePageState extends State<HomePage> {
                                 return Column(
                                   children: [
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MovieDetailPage(
+                                              movieId: movie.id,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       child: Container(
                                         padding: const EdgeInsets.only(
                                             left: 8, right: 8),
@@ -143,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                                       height: 4,
                                     ),
                                     Text(
-                                      formatarData(movie.releaseDate),
+                                      formatDate(movie.releaseDate),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.grey,

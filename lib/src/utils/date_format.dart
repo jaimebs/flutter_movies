@@ -1,4 +1,6 @@
-String formatarData(DateTime date) {
+import 'package:intl/intl.dart';
+
+String formatDate(DateTime date) {
   final months = [
     '',
     'jan',
@@ -20,4 +22,14 @@ String formatarData(DateTime date) {
   final year = date.year.toString();
 
   return '$day de $month de $year';
+}
+
+String getYearOfDate(DateTime date) {
+  final year = date.year.toString();
+  return year;
+}
+
+String formatToDdMmYyyy(DateTime date) {
+  final formatador = DateFormat('dd/MM/yyyy');
+  return formatador.format(date);
 }
